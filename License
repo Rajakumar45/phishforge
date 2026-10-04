@@ -1,0 +1,48 @@
+
+---
+
+### 3. `docs/architecture.md`
+Explains how the tool works under the hood.
+
+```markdown
+# Architecture
+
+## Overview
+PhishForge is a single-file Python application that leverages the `http.server` module to create a lightweight HTTP server. It serves static HTML templates and captures POST data from form submissions.
+
+## Component Breakdown
+
+### 1. HTTP Server
+- **Framework:** `http.server.HTTPServer`
+- **Port:** Configurable (default: 8080)
+- **Host:** `0.0.0.0` (accessible from any interface)
+- **Purpose:** Serves phishing templates and captures form data.
+
+### 2. Template Engine
+- **Location:** Embedded in `phishforge.py` (`TEMPLATES` dictionary)
+- **Formats:** `google`, `microsoft`, `paypal`
+- **Customization:** Edit the `TEMPLATES` dictionary to add new brands.
+- **Dynamic Content:** The `{{DOMAIN}}` placeholder is replaced with the actual `Host` header from the request.
+
+### 3. Data Capture
+- **Method:** `do_POST` handler in `PhishHandler`
+- **Format:** JSON (one entry per line)
+- **Location:** `logs/captures.log`
+- **Fields:**
+  - `timestamp`: ISO 8601 formatted date/time
+  - `ip`: Source IP address
+  - `path`: Request path
+  - `data`: Form fields (email, password, etc.)
+
+### 4. Link Generator
+- **Function:** `_generate_short_link()`
+- **Output:** Random path from a predefined list (e.g., `/secure-session`, `/account/verify`)
+- **Purpose:** Makes URLs look realistic and non-suspicious.
+
+## Data Flow
+1. User accesses the phishing URL.
+2. `PhishHandler.do_GET()` serves the selected HTML template.
+3. User submits credentials.
+4. `PhishHandler.do_POST()` captures the data.
+5. Data is logged to `logs/captures.log` and printed to the terminal.
+6. User is redirected to a "success" page.
