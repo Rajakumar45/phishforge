@@ -23,5 +23,5 @@ Designed for **educational purposes**, **security awareness training**, and **re
 No installation required. Just clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/phishforge.git
+git clone https://github.com/Rajakumar45/phishforge.git
 cd phishforge
